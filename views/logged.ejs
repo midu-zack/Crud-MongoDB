@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Your Dashboard</title>
+  <style>
+    /* Body styling */
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #212121; /* Dark background */
+      color: #fff; /* White text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  
+    /* Page container */
+    .container {
+      width: 400px;
+      padding: 20px;
+      background-color: #424242; /* Grey container background */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* White shadow effect */
+      text-align: center; /* Center align text */
+    }
+  
+    /* Heading style */
+    h1 {
+      color: #00bcd4; /* Cyan heading */
+    }
+  
+    /* Link style */
+    .a {
+      color: #03a9f4; /* Light blue link color */
+      text-decoration: none;
+      display: inline-block;
+      margin: 10px;
+      padding: 10px;
+      background-color: #03a9f4; /* Light blue button background */
+      color: #000; /* Black text */
+      border-radius: 4px;
+      transition: background-color 0.3s ease; /* Smooth transition */
+    }
+  
+    .a:hover {
+      background-color: #0288d1; /* Darker blue on hover */
+    }
+    #info-button {
+      background-color: #ff4081; /* Pink button background */
+      color: #fff;
+      border: none;
+    }
+    #info-button:hover{
+        background-color: #f50057;
+    }
+
+    .user-details {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      border: 1px solid #fff; /* White border */
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); /* White shadow effect */
+    }
+
+    .delete-button{
+      background-color: #ff1744; /* Red button background */
+      color: #fff;
+      border: none;
+      margin-top: 10px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 4px;
+      transition-duration: 0.3s;
+    }
+    .delete-button:hover , #logout:hover{
+      background-color: #d50000; /* Darker red on hover */
+    }
+    .edit-button {
+      background-color: #00bcd4; /* Cyan button background */
+      color: #fff;
+      border: none;
+      margin-top: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 4px;
+      transition-duration: 0.3s;
+    }
+    .edit-button:hover {
+      background-color: #00796b; /* Darker cyan on hover */
+    }
+
+    #logout{
+        background-color: #ff4081; /* Pink button background */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hello, <%= name %>!</h1>
+    <h2>Welcome!!!</h2>
+    <a href="#" class="a" id="logout" onclick="confirmLogout()">Logout</a>
+    <a href="#" class="a" onclick="showDetails()" id="info-button">User Info</a>
+
+    <!-- User details display -->
+    <div class="user-details" id="userDetails">
+
+      <h2>Your Account Details</h2>
+      <p><strong>Name:</strong> <%= name %></p>
+      <p><strong>Email:</strong><%= email %></p>
+       
+      <form action=""  method="get">
+        <input type="hidden" name="username" value="<%= name%>">
+        <a class="edit-button" href="/edit?name=<%= name %>">Edit Details </a>
+      </form>
+      <form action="/delete" onsubmit="deleteUser(event)" method="post">
+        <input type="hidden" name="username" value="<%= name %>">
+        <button class="delete-button" type="submit">Delete Account</button>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    function confirmLogout() {
+      const confirmLogout = confirm("Are you sure you want to logout?");
+      if (confirmLogout) {
+        // Handle logout logic
+        // Example: window.location.href = "/logout";
+      }
+    }
+
+    function showDetails() {
+      const userDetails = document.getElementById('userDetails');
+      userDetails.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
