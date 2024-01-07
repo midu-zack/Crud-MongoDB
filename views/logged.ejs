@@ -66,72 +66,91 @@
       border-radius: 8px;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); /* White shadow effect */
     }
+    .delete-button {
+  background-color: #e53935; /* Material Red 500 */
+  color: #fff;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
+  transition-duration: 0.3s;
+}
 
-    .delete-button{
-      background-color: #ff1744; /* Red button background */
-      color: #fff;
-      border: none;
-      margin-top: 10px;
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 4px;
-      transition-duration: 0.3s;
-    }
-    .delete-button:hover , #logout:hover{
-      background-color: #d50000; /* Darker red on hover */
-    }
-    .edit-button {
-      background-color: #00bcd4; /* Cyan button background */
-      color: #fff;
-      border: none;
-      margin-top: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      padding: 10px;
-      border-radius: 4px;
-      transition-duration: 0.3s;
-    }
-    .edit-button:hover {
-      background-color: #00796b; /* Darker cyan on hover */
-    }
+.delete-button:hover, #logout:hover {
+  background-color: #c62828; /* Darker red on hover */
+}
 
-    #logout{
-        background-color: #ff4081; /* Pink button background */
-    }
+.edit-button {
+  background-color: #2196F3; /* Material Blue 500 */
+  color: #fff;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
+  transition-duration: 0.3s;
+  font-style: italic;
+}
+
+.edit-button:hover {
+  background-color: #0d47a1; /* Darker blue on hover */
+  color: #000;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+#logout {
+  background-color: #E91E63; /* Material Pink 500 */
+  font-style: oblique;
+}
+
+#logout:hover {
+  background-color: #D81B60; /* Darker pink on hover */
+}
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Hello, <%= name %>!</h1>
-    <h2>Welcome!!!</h2>
+    <h1>Hello, <%= name %> !</h1>
+    <h2>Welcome  👋</h2>
+    
+
     <a href="#" class="a" id="logout" onclick="confirmLogout()">Logout</a>
     <a href="#" class="a" onclick="showDetails()" id="info-button">User Info</a>
-
+      
     <!-- User details display -->
     <div class="user-details" id="userDetails">
 
-      <h2>Your Account Details</h2>
+      <h2>Account Details</h2>
       <p><strong>Name:</strong> <%= name %></p>
       <p><strong>Email:</strong><%= email %></p>
        
       <form action=""  method="get">
-        <input type="hidden" name="username" value="<%= name%>">
-        <a class="edit-button" href="/edit?name=<%= name %>">Edit Details </a>
+
+        <input type="hidden" name="name" value="<%= name%>" >
+
+        <a class="edit-button" href="/edit?name=<%= name %>">Edit </a>
       </form>
+
+
       <form action="/delete" onsubmit="deleteUser(event)" method="post">
-        <input type="hidden" name="username" value="<%= name %>">
-        <button class="delete-button" type="submit">Delete Account</button>
+        <input type="hidden" name="name" value="<%= name %>">
+        <button class="delete-button" type="submit"> Delete </button>
       </form>
 
     </div>
   </div>
 
   <script>
+    
+    // Handle logout logic
     function confirmLogout() {
-      const confirmLogout = confirm("Are you sure you want to logout?");
+      const confirmLogout = confirm("Do you really want to logout?");
       if (confirmLogout) {
-        // Handle logout logic
-        // Example: window.location.href = "/logout";
+      
+       window.location.href = "/login";
       }
     }
 
@@ -139,6 +158,20 @@
       const userDetails = document.getElementById('userDetails');
       userDetails.style.display = 'block';
     }
+
+
+    function deleteUser() {
+      const deleteUser = confirm("Do you really  remove to account?");
+      if (deleteUser) {
+      
+       window.location.href = "/delete";
+      }else{
+       event.preventDefault();
+      }
+    }
+
+
+    
   </script>
 </body>
 </html>

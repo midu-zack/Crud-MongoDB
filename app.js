@@ -71,6 +71,7 @@ app.post('/login', async (req, res) => {
       return res.render('login', { message: 'Incorrect password. Please try again.' });
     }
     res.redirect('/logged?name=' + user.name);
+  
   } catch (error) {
     res.status(500).json({ message: 'Login failed', error });
   }
@@ -124,6 +125,23 @@ app.get('/logged', async (req, res) => {
     } catch (error) {
     res.status(500).json({ message: 'Error fetching user details', error });
     }
+});
+
+
+// Express route for delete
+app.post('/delete', async (req, res) => {
+  try {
+    const { name } = req.body;
+    console.log("name :" , req.body);
+
+    const deletedUser = await User.findOneAndDelete({ name });
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.redirect('/login'); // Redirect to the login page after successful deletion
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting user', error });
+  }
 });
 
 app.listen(port, () => {
