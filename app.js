@@ -78,6 +78,8 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
+
 // Render the signup page
 app.get('/signup', (req, res) => {
   res.render('signup');
@@ -110,13 +112,16 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+
+
+
 // logged page 
 app.get('/logged', async (req, res) => {
     try {
     const { name } = req.query;
     const user = await User.findOne({ name });
     if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'Invalid Login Information' });
     }
     const { email } = user;
     res.render('logged', { name, email });
@@ -133,7 +138,7 @@ app.get('/update', async (req, res) => {
     const user = await User.findOne({ name });
 
     if (!user) {
-      return res.status(404).json({ errors: 'User not found' });
+      return res.status(404).json({ errors: 'No Matching User Found' });
     }
 
     // Render the 'update' EJS template with the user's actual name and email
@@ -204,6 +209,9 @@ app.post('/delete', async (req, res) => {
     res.status(500).json({ message: 'Error deleting user', error });
   }
 });
+
+
+
 
 app.listen(port, () => {
   console.log(`Server running on : ${port}`);

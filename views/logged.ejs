@@ -40,7 +40,9 @@
       margin: 10px;
       padding: 10px;
       background-color: #03a9f4; /* Light blue button background */
-      color: #000; /* Black text */
+      color: #ffffff; /* Black text */
+      font-style:italic;
+      font-weight: 800;
       border-radius: 4px;
       transition: background-color 0.3s ease; /* Smooth transition */
     }
@@ -49,12 +51,15 @@
       background-color: #0288d1; /* Darker blue on hover */
     }
     #info-button {
-      background-color: #ff4081; /* Pink button background */
-      color: #fff;
+      background-color: #b4fa1c; /* Pink button background */
+      color: #000000;
       border: none;
+      font-weight: 800;
+      font-style: italic;
+      
     }
     #info-button:hover{
-        background-color: #f50057;
+        background-color: #ffcc00;
     }
 
     .user-details {
@@ -67,10 +72,10 @@
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); /* White shadow effect */
     }
     .delete-button {
-  background-color: #e53935; /* Material Red 500 */
+  background-color: #000000; /* Material Red 500 */
   color: #fff;
   border: none;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   cursor: pointer;
   padding: 10px;
   border-radius: 4px;
@@ -78,25 +83,27 @@
 }
 
 .delete-button:hover, #logout:hover {
-  background-color: #c62828; /* Darker red on hover */
+  background-color: #b90000; /* Darker red on hover */
 }
 
 .edit-button {
-  background-color: #2196F3; /* Material Blue 500 */
-  color: #fff;
+  background-color: #ffffff; /* Material Blue 500 */
+  color: #000000;
   border: none;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   cursor: pointer;
   text-decoration: none;
   padding: 10px;
   border-radius: 4px;
   transition-duration: 0.3s;
   font-style: italic;
+  margin-left: 230px;
+  margin-top: 40px;
 }
 
 .edit-button:hover {
-  background-color: #0d47a1; /* Darker blue on hover */
-  color: #000;
+  background-color: #54db00; /* Darker blue on hover */
+  color: #ffffff;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -127,19 +134,20 @@
       <p><strong>Name:</strong> <%= name %></p>
       <p><strong>Email:</strong><%= email %></p>
        
-      <form action="/update"  method="get">
-
-        <input type="hidden" name="name" value="<%= name%>" >
-
-        <a class="edit-button" href="/update?name=<%= name %>">Edit </a>
-      </form>
-
+      <div class="" style="display: flex;" >
+     
 
       <form action="/delete" onsubmit="deleteUser(event)" method="post">
         <input type="hidden" name="name" value="<%= name %>">
         <button class="delete-button" type="submit"> Delete </button>
       </form>
 
+      <form action="/update"  method="get">
+        <input type="hidden" name="name" value="<%= name%>" >
+        <a class="edit-button" href="/update?name=<%= name %>"> modified </a>
+      </form>
+
+    </div>
     </div>
   </div>
 
@@ -161,7 +169,7 @@
 
 
     function deleteUser() {
-      const deleteUser = confirm("Do you really  remove to account?");
+      const deleteUser = confirm("Do you really want to remove the account?");
       if (deleteUser) {
       
        window.location.href = "/delete";
