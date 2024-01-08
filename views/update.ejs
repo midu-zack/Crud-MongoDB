@@ -58,7 +58,8 @@
     }
   </style>
 </head>
-<div class="container">
+<body>
+  <div class="container">
     <h1>Edit Profile</h1>
 
     <form action="/update" method="post" onsubmit="return validateForm()">
@@ -66,17 +67,16 @@
       <input type="text" id="name" name="name" value="<%= name %>" readonly>
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" value="<%= email %>" readonly>
+      <input type="email" id="email" name="email" value="<%= email %>"  >
 
       <label for="currentPassword">Current Password:</label>
       <input type="password" id="currentPassword" name="currentPassword"  >
 
       <label for="newPassword">New Password:</label>
       <input type="password" id="newPassword" name="newPassword"  >
- 
 
-      <p class="error" style="color: red;" id="currentPasswordError"><%= errors.currentPassword ? errors.currentPassword : '' %></p>
-      
+      <!-- Display error message for currentPassword -->
+      <p class="error" style="color: red;" id="currentPasswordError"><%= errors.currentPassword %></p>
 
       <button type="submit">Save Changes</button>
     </form>
@@ -86,7 +86,7 @@
         const currentPassword = document.getElementById('currentPassword').value;
 
         // Perform client-side validation
-        if (currentPassword<8) {
+        if (!currentPassword || currentPassword.trim() === '') {
           document.getElementById('currentPasswordError').innerText = 'Current Password is required';
           return false; // Prevent form submission
         }
@@ -98,4 +98,5 @@
     </script>
   </div>
 </body>
+
 </html>
