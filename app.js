@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { name } = require('ejs');
  
 const app = express();
 const port = 4000;
@@ -83,9 +84,7 @@ app.get('/signup', (req, res) => {
 });
 
 
-
-
-
+ 
 // Handle signup form submission
 app.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
@@ -112,7 +111,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-
+// logged page 
 app.get('/logged', async (req, res) => {
     try {
     const { name } = req.query;
@@ -125,6 +124,67 @@ app.get('/logged', async (req, res) => {
     } catch (error) {
     res.status(500).json({ message: 'Error fetching user details', error });
     }
+});
+
+// render the update page
+app.get('/update', async (req, res) => {
+  try {
+    const { name } = req.query;
+    const user = await User.findOne({ name });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.render('update', { name: user.name, email: user.email });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user data for update', error });
+  }
+});
+
+// handel the  update password
+app.post('/update', async (req, res) => {
+  const { name, currentPassword, newPassword } = req.body;
+  const errors = {};
+
+  // Server-side validation
+  if (!currentPassword || currentPassword.trim() === '') {
+    errors.currentPassword = 'Current Password is required';
+  }
+
+  if (!newPassword || newPassword.trim() === '') {
+    errors.newPassword = 'New Password is required';
+  } else if (newPassword.length < 6) {
+    errors.newPassword = 'Password must be at least 6 characters long';
+  }
+
+  // If there are validation errors, render the update page with errors
+  if (Object.keys(errors).length > 0) {
+    return res.render('update', { name, email: req.body.email, errors });
+  }
+
+  try {
+    const user = await User.findOne({ name });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Validate the current password
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      errors.currentPassword = 'Incorrect current password';
+      return res.render('update', { name, email: user.email, errors });
+    }
+
+    // Update user data with the new password
+    user.password = await bcrypt.hash(newPassword, 8);
+    await user.save();
+
+    res.redirect('/logged?name=' + user.name);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating user data', error });
+  }
 });
 
 

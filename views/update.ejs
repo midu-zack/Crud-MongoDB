@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile</title>
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #212121; /* Dark background */
+      color: #fff; /* White text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 400px;
+      padding: 20px;
+      background-color: #424242; /* Grey container background */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* White shadow effect */
+      text-align: center; /* Center align text */
+    }
+
+    h1 {
+      color: #00bcd4; /* Cyan heading */
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #fff;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #2196F3; /* Material Blue 500 */
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition-duration: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0d47a1; /* Darker blue on hover */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Profile</h1>
+
+    <form action="/update" method="post">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" value="<%= name %>" required>
+
+      <label for="email">Email:</label>
+ 
+      <input type="email" id="email" name="email" value="<%= email %>" required>
+
+      <label for="newPassword">New Password:</label>
+      <input type="password" id="newPassword" name="newPassword">
+
+      <label for="currentPassword">Current Password:</label>
+      <input type="password" id="currentPassword" name="currentPassword" required>
+
+      <label for="newPassword">New Password:</label>
+      <input type="password" id="newPassword" name="newPassword">
+      <p class="error" id="newPasswordError"><%= errors.newPassword %></p>
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+</body>
+</html>
