@@ -83,7 +83,6 @@ app.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-
  
 // Handle signup form submission
 app.post('/signup', async (req, res) => {
@@ -126,19 +125,28 @@ app.get('/logged', async (req, res) => {
     }
 });
 
-// render the update page
-app.get('/update', (req, res) => {
-  const errors = {
-    currentPassword: 'Your error message here', // You can customize this based on your actual error handling logic
-  };
 
-  // Render the 'update' EJS template with the 'errors' object
-  res.render('update', {
-    name: 'John Doe', // Replace with the actual data you want to pass
-    email: 'john@example.com', // Replace with the actual data you want to pass
-    errors: errors,
-  });
+// render the update page
+app.get('/update', async (req, res) => {
+  try {
+    const { name } = req.query;
+    const user = await User.findOne({ name });
+
+    if (!user) {
+      return res.status(404).json({ errors: 'User not found' });
+    }
+
+    // Render the 'update' EJS template with the user's actual name and email
+    res.render('update', {
+      name: user.name,
+      email: user.email,
+      errors: {}, // You may want to pass an empty errors object if no errors are present initially
+    });
+  } catch (error) {
+    res.status(500).json({ errors: 'Error fetching user data for update', error });
+  }
 });
+
 
 
 // handel the  update password
@@ -175,7 +183,7 @@ app.post('/update', async (req,res) => {
     user.password = await bcrypt.hash(newPassword, 8);
     await user.save();
 
-    res.redirect('/logged' + user.name);
+    res.redirect(`/logged?name=${encodeURIComponent(user.name)}`);  
   } catch (error) {
     res.status(500).json({ errors: 'Error updating user data', error });
   }
