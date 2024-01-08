@@ -58,30 +58,44 @@
     }
   </style>
 </head>
-<body>
-  <div class="container">
+<div class="container">
     <h1>Edit Profile</h1>
 
-    <form action="/update" method="post">
+    <form action="/update" method="post" onsubmit="return validateForm()">
       <label for="name">Name:</label>
-      <input type="text" id="name" name="name" value="<%= name %>" required>
+      <input type="text" id="name" name="name" value="<%= name %>" readonly>
 
       <label for="email">Email:</label>
- 
-      <input type="email" id="email" name="email" value="<%= email %>" required>
-
-      <label for="newPassword">New Password:</label>
-      <input type="password" id="newPassword" name="newPassword">
+      <input type="email" id="email" name="email" value="<%= email %>" readonly>
 
       <label for="currentPassword">Current Password:</label>
-      <input type="password" id="currentPassword" name="currentPassword" required>
+      <input type="password" id="currentPassword" name="currentPassword"  >
 
       <label for="newPassword">New Password:</label>
-      <input type="password" id="newPassword" name="newPassword">
-      <p class="error" id="newPasswordError"><%= errors.newPassword %></p>
+      <input type="password" id="newPassword" name="newPassword"  >
+ 
+
+      <p class="error" style="color: red;" id="currentPasswordError"><%= errors.currentPassword ? errors.currentPassword : '' %></p>
+      
 
       <button type="submit">Save Changes</button>
     </form>
+
+    <script>
+      function validateForm() {
+        const currentPassword = document.getElementById('currentPassword').value;
+
+        // Perform client-side validation
+        if (currentPassword<8) {
+          document.getElementById('currentPasswordError').innerText = 'Current Password is required';
+          return false; // Prevent form submission
+        }
+
+        // Clear the error message if validation passes
+        document.getElementById('currentPasswordError').innerText = '';
+        return true; // Allow form submission
+      }
+    </script>
   </div>
 </body>
 </html>

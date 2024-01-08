@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const { name } = require('ejs');
  
 const app = express();
-const port = 4000;
+const port = 5000;
 
 
 // Middleware for parsing URL-encoded form data
@@ -133,48 +133,44 @@ app.get('/update', async (req, res) => {
     const user = await User.findOne({ name });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ errors: 'User not found' });
     }
 
     res.render('update', { name: user.name, email: user.email });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching user data for update', error });
+    res.status(500).json({ errors: 'Error fetching user data for update', error });
   }
 });
+
 
 // handel the  update password
 app.post('/update', async (req, res) => {
   const { name, currentPassword, newPassword } = req.body;
-  const errors = {};
-
-  // Server-side validation
-  if (!currentPassword || currentPassword.trim() === '') {
-    errors.currentPassword = 'Current Password is required';
-  }
-
-  if (!newPassword || newPassword.trim() === '') {
-    errors.newPassword = 'New Password is required';
-  } else if (newPassword.length < 6) {
-    errors.newPassword = 'Password must be at least 6 characters long';
-  }
-
-  // If there are validation errors, render the update page with errors
-  if (Object.keys(errors).length > 0) {
-    return res.render('update', { name, email: req.body.email, errors });
-  }
 
   try {
     const user = await User.findOne({ name });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ errors: 'User not found' });
     }
 
-    // Validate the current password
+    // Validate -current password
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
     if (!passwordMatch) {
-      errors.currentPassword = 'Incorrect current password';
-      return res.render('update', { name, email: user.email, errors });
+      return res.render('update', {
+        name,
+        email: user.email,
+        errors: { currentPassword: 'Incorrect current password' },
+      });
+    }
+
+    // Additional server-side validation for the new password (if needed)
+    if (!newPassword || newPassword.trim() === '' || newPassword.length < 6) {
+      return res.render('update', {
+        name,
+        email: user.email,
+        errors: { newPassword: 'New Password must be at least 6 characters long' },
+      });
     }
 
     // Update user data with the new password
@@ -183,10 +179,9 @@ app.post('/update', async (req, res) => {
 
     res.redirect('/logged?name=' + user.name);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating user data', error });
+    res.status(500).json({ errors: 'Error updating user data', error });
   }
 });
-
 
 // Express route for delete
 app.post('/delete', async (req, res) => {
@@ -194,7 +189,7 @@ app.post('/delete', async (req, res) => {
     const { name } = req.body;
     console.log("name :" , req.body);
 
-    const deletedUser = await User.findOneAndDelete({ name });
+    const deletedUser = await User.findOneAndDelete({ name })
     if (!deletedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
