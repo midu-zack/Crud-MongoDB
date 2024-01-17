@@ -8,8 +8,8 @@
       font-family: 'Roboto', Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #212121; /* Dark background */
-      color: #fff; /* White text */
+      background-color: #212121;  
+      color: #fff;  
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,14 +19,14 @@
     .container {
       width: 400px;
       padding: 20px;
-      background-color: #424242; /* Grey container background */
+      background-color: #424242; 
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* White shadow effect */
-      text-align: center; /* Center align text */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
+      text-align: center;  
     }
 
     h1 {
-      color: #00bcd4; /* Cyan heading */
+      color: #00bcd4;  
     }
 
     label {
@@ -44,7 +44,7 @@
     }
 
     button {
-      background-color: #2196F3; /* Material Blue 500 */
+      background-color: #2196F3; 
       color: #fff;
       border: none;
       padding: 10px;
@@ -54,7 +54,7 @@
     }
 
     button:hover {
-      background-color: #0d47a1; /* Darker blue on hover */
+      background-color: #0d47a1;  
     }
   </style>
 </head>
@@ -75,7 +75,7 @@
       <label for="newPassword">New Password:</label>
       <input type="password" id="newPassword" name="newPassword"  >
 
-      <!-- Display error message for currentPassword -->
+      <!-- display error message for currentPassword -->
       <p class="error" style="color: red;" id="currentPasswordError"><%= errors.currentPassword %></p>
 
       <button type="submit" style="background-color: green;">Save Changes</button>
@@ -85,15 +85,15 @@
       function validateForm() {
         const currentPassword = document.getElementById('currentPassword').value;
 
-        // Perform client-side validation
+        //   clientSide validation
         if (!currentPassword || currentPassword.trim() === '') {
           document.getElementById('currentPasswordError').innerText = 'Current Password is required';
-          return false; // Prevent form submission
+          return false; // prevent form submission
         }
 
-        // Clear the error message if validation passes
+         
         document.getElementById('currentPasswordError').innerText = '';
-        return true; // Allow form submission
+        return true; // allow form submission
       }
     </script>
   </div>

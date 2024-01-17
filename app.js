@@ -8,15 +8,14 @@ const app = express();
 const port = 5000;
 
 
-// Middleware for parsing URL-encoded form data
+//middleware u
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Serve your static files (if any)
+   
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
 
-// Connect to MongoDB
+// Connect  MongoDB
 mongoose.connect('mongodb://localhost:27017/Collections-Data', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
@@ -25,24 +24,23 @@ mongoose.connect('mongodb://localhost:27017/Collections-Data', { useNewUrlParser
     console.error('Error connecting to MongoDB:', error.message);
   });
 
+
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// Define a mongoose schema for user data
+//  schema for user data
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
 });
 
-// Create a User model from the schema
+
+// create user model to the schema
 const User = mongoose.model('User', userSchema);
 
-
-
-
-
+ 
 app.get('/', (req, res) => {
   res.redirect('/login')
 });
@@ -62,10 +60,13 @@ app.post('/login', async (req, res) => {
   // console.log("data",req.body);
   
   try {
+    //finding the name
     const user = await User.findOne({ name });
+
     if (!user) {
       return res.render('login', { message: 'User not exist. Please sign up.' });
     }
+    //password hashing
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
@@ -80,14 +81,15 @@ app.post('/login', async (req, res) => {
 
 
 
-// Render the signup page
+ 
 app.get('/signup', (req, res) => {
   res.render('signup');
 });
 
  
-// Handle signup form submission
+// handle signup form submission
 app.post('/signup', async (req, res) => {
+
   const { name, email, password } = req.body;
   try {
     const existingUser = await User.findOne({ name });
@@ -119,6 +121,7 @@ app.post('/signup', async (req, res) => {
 app.get('/logged', async (req, res) => {
     try {
     const { name } = req.query;
+    // check
     const user = await User.findOne({ name });
     if (!user) {
         return res.status(404).json({ message: 'Invalid Login Information' });
@@ -134,6 +137,7 @@ app.get('/logged', async (req, res) => {
 // render the update page
 app.get('/update', async (req, res) => {
   try {
+
     const { name } = req.query;
     const user = await User.findOne({ name });
 
@@ -141,11 +145,11 @@ app.get('/update', async (req, res) => {
       return res.status(404).json({ errors: 'No Matching User Found' });
     }
 
-    // Render the 'update' EJS template with the user's actual name and email
+     
     res.render('update', {
       name: user.name,
       email: user.email,
-      errors: {}, // You may want to pass an empty errors object if no errors are present initially
+      errors: {},  
     });
   } catch (error) {
     res.status(500).json({ errors: 'Error fetching user data for update', error });
@@ -154,7 +158,7 @@ app.get('/update', async (req, res) => {
 
 
 
-// handel the  update password
+// handel the  update and password
 app.post('/update', async (req,res) => {
   const { name, currentPassword, newPassword } = req.body;
 
@@ -165,7 +169,7 @@ app.post('/update', async (req,res) => {
       return res.status(404).json({ errors: 'User not found' });
     }
 
-    // Validate -current password
+    // validate current password
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
     if (!passwordMatch) {
       return res.render('update', {
@@ -175,7 +179,7 @@ app.post('/update', async (req,res) => {
       });
     }
 
-    // Additional server-side validation for the new password (if needed)
+    //  validation for the new password 
     if (!newPassword || newPassword.trim() === '' || newPassword.length < 6) {
       return res.render('update', {
         name,
@@ -184,8 +188,9 @@ app.post('/update', async (req,res) => {
       });
     }
 
-    // Update user data with the new password
+    //update the user data (new password)
     user.password = await bcrypt.hash(newPassword, 8);
+
     await user.save();
 
     res.redirect(`/logged?name=${encodeURIComponent(user.name)}`);  
@@ -194,7 +199,9 @@ app.post('/update', async (req,res) => {
   }
 });
 
-// Express route for delete
+
+
+// express route for delete
 app.post('/delete', async (req, res) => {
   try {
     const { name } = req.body;
@@ -204,7 +211,7 @@ app.post('/delete', async (req, res) => {
     if (!deletedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.redirect('/login'); // Redirect to the login page after successful deletion
+    res.redirect('/login');   
   } catch (error) {
     res.status(500).json({ message: 'Error deleting user', error });
   }

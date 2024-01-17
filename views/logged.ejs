@@ -4,54 +4,53 @@
   <meta charset="UTF-8">
   <title>Welcome to Your Dashboard</title>
   <style>
-    /* Body styling */
+    
     body {
       font-family: 'Roboto', Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #212121; /* Dark background */
-      color: #fff; /* White text */
+      background-color: #212121;  
+      color: #fff;  
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
   
-    /* Page container */
+    
     .container {
       width: 400px;
       padding: 20px;
-      background-color: #424242; /* Grey container background */
+      background-color: #424242;  
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* White shadow effect */
-      text-align: center; /* Center align text */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
+      text-align: center;  
     }
   
-    /* Heading style */
+   
     h1 {
-      color: #00bcd4; /* Cyan heading */
+      color: #00bcd4;  
     }
   
-    /* Link style */
+     
     .a {
-      color: #03a9f4; /* Light blue link color */
+      color: #03a9f4;  
       text-decoration: none;
       display: inline-block;
       margin: 10px;
       padding: 10px;
-      background-color: #03a9f4; /* Light blue button background */
-      color: #ffffff; /* Black text */
+      background-color: #03a9f4;  
+      color: #ffffff;  
       font-style:italic;
       font-weight: 800;
       border-radius: 4px;
-      transition: background-color 0.3s ease; /* Smooth transition */
-    }
+      transition: background-color 0.3s ease;      }
   
     .a:hover {
-      background-color: #0288d1; /* Darker blue on hover */
+      background-color: #0288d1;  
     }
     #info-button {
-      background-color: #b4fa1c; /* Pink button background */
+      background-color: #b4fa1c;  
       color: #000000;
       border: none;
       font-weight: 800;
@@ -66,16 +65,16 @@
       display: none;
       margin-top: 20px;
       text-align: left;
-      border: 1px solid #fff; /* White border */
+      border: 1px solid #fff;  
       padding: 15px;
       border-radius: 8px;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); /* White shadow effect */
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);  
     }
     .delete-button {
-  background-color: #000000; /* Material Red 500 */
+  background-color: #000000;  
   color: #fff;
   border: none;
-  /* margin-top: 10px; */
+  
   cursor: pointer;
   padding: 10px;
   border-radius: 4px;
@@ -83,14 +82,14 @@
 }
 
 .delete-button:hover, #logout:hover {
-  background-color: #b90000; /* Darker red on hover */
+  background-color: #b90000;  
 }
 
 .edit-button {
-  background-color: #ffffff; /* Material Blue 500 */
+  background-color: #ffffff;  
   color: #000000;
   border: none;
-  /* margin-top: 10px; */
+  
   cursor: pointer;
   text-decoration: none;
   padding: 10px;
@@ -102,18 +101,18 @@
 }
 
 .edit-button:hover {
-  background-color: #54db00; /* Darker blue on hover */
+  background-color: #54db00;  
   color: #ffffff;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 #logout {
-  background-color: #E91E63; /* Material Pink 500 */
+  background-color: #E91E63;  
   font-style: oblique;
 }
 
 #logout:hover {
-  background-color: #D81B60; /* Darker pink on hover */
+  background-color: #D81B60; 
 }
 
   </style>
@@ -153,7 +152,8 @@
 
   <script>
     
-    // Handle logout logic
+
+    // handle logout  
     function confirmLogout() {
       const confirmLogout = confirm("Do you really want to logout?");
       if (confirmLogout) {
