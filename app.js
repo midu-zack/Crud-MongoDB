@@ -197,6 +197,7 @@ app.post('/update', async (req,res) => {
   } catch (error) {
     res.status(500).json({ errors: 'Error updating user data', error });
   }
+  
 });
 
 
